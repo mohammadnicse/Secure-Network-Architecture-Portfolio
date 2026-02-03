@@ -36,27 +36,3 @@ The Guest network is allowed to access the Internet (Any) but explicitly DENIED 
 ip access-list extended BLOCK_GUEST_TO_HR
  deny ip 10.10.50.64 0.0.0.63 10.10.50.0 0.0.0.63
  permit ip any any
-
-Challenges & Troubleshooting
-This section documents actual issues encountered during the build.
-
-Issue: Native VLAN Mismatch
-
-Problem: During the initial trunk configuration, I received %CDP-4-NATIVE_VLAN_MISMATCH errors between the switch and router.
-
-Diagnosis: The router sub-interface was tagging frames, but the switch native VLAN settings were inconsistent.
-
-Fix: I standardized the native VLAN across the trunk link to resolve the mismatch.
-
-Issue: Ping Failure to DMZ
-
-Problem: Initially, the Guest network could not reach the DMZ Web Server.
-
-Fix: I realized I had not enabled the physical interface for the DMZ (G0/1) and assigned it the correct gateway IP 172.16.1.1.
-
-Verification
-I performed ping tests to verify the security rules:
-
-Guest -> Internet: SUCCESS (Allowed)
-
-Guest -> HR: FAILED (Blocked by ACL BLOCK_GUEST_TO_HR) - See /Screenshots for proof.
