@@ -1,0 +1,96 @@
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname DXB_Router
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO2911/K9 sn FTX15245520-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.10
+ description HR_GATEWAY
+ encapsulation dot1Q 10
+ ip address 10.10.50.1 255.255.255.192
+!
+interface GigabitEthernet0/0.20
+ description GUEST_GATEWAY
+ encapsulation dot1Q 20
+ ip address 10.10.50.65 255.255.255.192
+ ip access-group BLOCK_GUEST_TO_HR in
+!
+interface GigabitEthernet0/1
+ description DMZ_GATEWAY
+ ip address 172.16.1.1 255.255.255.248
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+ip access-list extended BLOCK_GUEST_TO_HR
+ deny ip 10.10.50.64 0.0.0.63 10.10.50.0 0.0.0.63
+ permit ip any any
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
