@@ -20,6 +20,18 @@ Instead of a flat network, I segmented traffic into specific zones using a calcu
 
 ## Implementation Details
 
+## Challenges & Troubleshooting
+*This section documents actual issues encountered during the build.*
+
+**Issue: Native VLAN Mismatch**
+* **Problem:** During the initial trunk configuration, I received `%CDP-4-NATIVE_VLAN_MISMATCH` errors between the switch and router.
+* **Diagnosis:** The router sub-interface was tagging frames, but the switch native VLAN settings were inconsistent.
+* **Fix:** I standardized the native VLAN across the trunk link to resolve the mismatch.
+
+**Issue: Ping Failure to DMZ**
+* **Problem:** Initially, the Guest network could not reach the DMZ Web Server.
+* **Fix:** I realized I had not enabled the physical interface for the DMZ (`G0/1`) and assigned it the correct gateway IP `172.16.1.1`.
+
 ### 1. VLAN & Trunk Configuration
 I configured the Core Switch (`DXB_Switch`) to tag traffic using 802.1Q encapsulation. The trunk link to the router allows multiple VLANs to traverse a single physical cable.
 
